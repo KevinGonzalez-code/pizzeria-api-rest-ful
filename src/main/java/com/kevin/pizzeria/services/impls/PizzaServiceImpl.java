@@ -25,8 +25,8 @@ public class PizzaServiceImpl implements IPizzaService {
     }
 
     @Override
-    public void save(Pizza pizza) { 
-        pizzaDao.save(pizza);
+    public Pizza save(Pizza pizza) { 
+        return pizzaDao.save(pizza);
     }
 
     @Override

@@ -7,6 +7,6 @@ import com.kevin.pizzeria.entities.Pizza;
 public interface IPizzaService {
     public List<Pizza> getAllPizzas();
     public Pizza getPizzaById(Long idPizza);
-    public void save(Pizza pizza);
+    public Pizza save(Pizza pizza);
     public void deletePizzaById(Long idPizza);
 }
