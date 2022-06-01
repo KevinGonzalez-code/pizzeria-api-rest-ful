@@ -8,11 +8,15 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Pizza implements Serializable{
 
     @Id
@@ -28,8 +33,11 @@ public class Pizza implements Serializable{
     private String nombre;
     private String foto;
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "pizza")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = "pizza_ingrediente",
+        joinColumns = @JoinColumn(name="pizza_id"),
+        inverseJoinColumns = @JoinColumn(name="ingrediente_id"))
     private List<Ingrediente> ingredientes;
 
     @JsonIgnore
