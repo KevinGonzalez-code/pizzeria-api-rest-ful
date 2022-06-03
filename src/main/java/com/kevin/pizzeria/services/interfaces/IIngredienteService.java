@@ -5,5 +5,6 @@ import java.util.List;
 import com.kevin.pizzeria.entities.Ingrediente;
 
 public interface IIngredienteService {
-    public List<Ingrediente> getAllIngredientes();    
+    public List<Ingrediente> getAllIngredientes();
+    public void save (Ingrediente ingrediente);    
 }

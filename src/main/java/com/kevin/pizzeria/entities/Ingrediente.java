@@ -32,7 +32,7 @@ public class Ingrediente implements Serializable{
     private String nombre;
     private Double precio;
 
-    @ManyToMany(mappedBy = "ingredientes")
+    @ManyToMany(mappedBy = "ingredientes", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
      private List<Pizza> pizza;
 }

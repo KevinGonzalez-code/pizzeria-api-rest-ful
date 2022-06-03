@@ -33,14 +33,14 @@ public class Pizza implements Serializable{
     private String nombre;
     private String foto;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "pizza_ingrediente",
         joinColumns = @JoinColumn(name="pizza_id"),
         inverseJoinColumns = @JoinColumn(name="ingrediente_id"))
     private List<Ingrediente> ingredientes;
 
-    @JsonIgnore
+    
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, mappedBy = "usuario")
     private List<Comentario> comentarios;
 

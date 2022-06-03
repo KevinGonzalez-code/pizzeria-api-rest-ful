@@ -19,5 +19,10 @@ public class IngredienteServiceImpl implements IIngredienteService{
     public List<Ingrediente> getAllIngredientes() {
         return ingredienteDao.findAll();
     }
+
+    @Override
+    public void save(Ingrediente ingrediente) {
+        ingredienteDao.save(ingrediente);        
+    }
     
 }
