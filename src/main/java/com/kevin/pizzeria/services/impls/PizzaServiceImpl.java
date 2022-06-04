@@ -20,7 +20,7 @@ public class PizzaServiceImpl implements IPizzaService {
     }
 
     @Override
-    public Pizza getPizzaById(Long idPizza) {
+    public Pizza getPizzaById(long idPizza) {
         return pizzaDao.findById(idPizza).get();
     }
 
