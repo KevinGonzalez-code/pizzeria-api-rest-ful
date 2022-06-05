@@ -39,7 +39,7 @@ public class Pizza implements Serializable{
     @NotEmpty(message = "La imagen de la pizza es requerida")
     private String foto;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "pizza_ingrediente",
         joinColumns = @JoinColumn(name="pizza_id"),
