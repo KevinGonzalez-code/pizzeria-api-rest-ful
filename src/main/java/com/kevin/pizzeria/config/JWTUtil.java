@@ -1,5 +1,12 @@
 package com.kevin.pizzeria.config;
 
+import java.util.Date;
+
+import org.springframework.security.core.userdetails.UserDetails;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 public class JWTUtil {
 
     private static final String KEY = "kevin";
