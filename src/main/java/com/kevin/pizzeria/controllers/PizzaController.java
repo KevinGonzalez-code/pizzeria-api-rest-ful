@@ -25,8 +25,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kevin.pizzeria.entities.Comentario;
+import com.kevin.pizzeria.entities.Ingrediente;
 import com.kevin.pizzeria.entities.Pizza;
 import com.kevin.pizzeria.hateoas.assemblers.PizzaModelAssembler;
+import com.kevin.pizzeria.services.interfaces.IComentarioService;
 import com.kevin.pizzeria.services.interfaces.IIngredienteService;
 import com.kevin.pizzeria.services.interfaces.IPizzaService;
 
@@ -41,8 +44,11 @@ public class PizzaController {
     @Autowired
     private IPizzaService pizzaService;
 
-    // @Autowired
-    // private IIngredienteService ingredienteService;
+    @Autowired
+    private IIngredienteService ingredienteService;
+
+    @Autowired
+    private IComentarioService comentarioService;
 
     @NonNull
     private final PizzaModelAssembler assembler;
@@ -51,21 +57,23 @@ public class PizzaController {
     public CollectionModel<EntityModel<Pizza>> getPizzas() {
 
         // Pizza test = Pizza.builder()
-        // .nombre("Barbacoa")
+        // .nombre("Comentarios")
         // .precio(23.22)
+        // .foto("foto")
         // .ingredientes(ingredienteService.getAllIngredientes())
+        // .comentarios(comentarioService.getAllComentarios())
         // .build();
 
         // pizzaService.save(test);
 
-        // Ingrediente test = Ingrediente.builder()
+        // Ingrediente test2 = Ingrediente.builder()
         //                             .nombre("Carne picada")
         //                             .precio(3.44)
         //                             .build();
         // List<Ingrediente> ingredientes = new ArrayList<>();
-        // ingredientes.add(test);
+        // ingredientes.add(test2);
 
-        // ingredienteService.save(test);
+        // ingredienteService.save(test2);
 
         List<Pizza> pizass = pizzaService.getAllPizzas();
 
@@ -78,6 +86,13 @@ public class PizzaController {
 
     @GetMapping("/{id}")
     public EntityModel<Pizza> getPizzasById(@PathVariable long id) {
+        Pizza test = pizzaService.getPizzaById(id);
+
+        List<Comentario> comentarios = comentarioService.getAllComentarios();
+        
+        //test.setComentarios(comentarios);
+        
+
         return assembler.toModel(pizzaService.getPizzaById(id));
     }
 
@@ -99,15 +114,19 @@ public class PizzaController {
 
             return responseEntity = new ResponseEntity<Map<String, Object>>(responseMap, HttpStatus.BAD_REQUEST);
         }
-        // Guardamos el producto
+ 
 
         try {
+
+            //calcular el precio de la pizza antes de guardarla          
+
+            pizza.setPrecio(pizzaService.calculateProfits(pizza.getIngredientes()));
 
             // Comprobamos que realmente se a guardado el producto en la base de datos
             Pizza pizzaDB = pizzaService.save(pizza);
 
             if (pizzaDB != null) {
-                responseMap.put("mensaje", "La pizza id:" + pizzaDB.getId() + " se ha guardado correctamente");
+                responseMap.put("mensaje", "La pizza id: " + pizzaDB.getId() + " se ha guardado correctamente");
                 responseMap.put("pizza", pizzaDB);
                 responseEntity = new ResponseEntity<>(responseMap, HttpStatus.CREATED);
             } else {
@@ -147,6 +166,10 @@ public class PizzaController {
         try {
 
             pizza.setId(id);
+           // pizza.setComentarios(pizza.getComentarios());
+
+            pizza.setPrecio(pizzaService.calculateProfits(pizza.getIngredientes()));
+
 
             // Comprobamos que realmente se a guardado el producto en la base de datos
             Pizza pizzaDB = pizzaService.save(pizza);
@@ -174,6 +197,8 @@ public class PizzaController {
     public ResponseEntity<String> deletePizza(@PathVariable Long id) {
 
         ResponseEntity<String> response = null;
+
+        
 
         pizzaService.deletePizzaById(id);
 

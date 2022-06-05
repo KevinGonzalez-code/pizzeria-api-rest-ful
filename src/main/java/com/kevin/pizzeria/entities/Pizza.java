@@ -39,7 +39,7 @@ public class Pizza implements Serializable{
     @NotEmpty(message = "La imagen de la pizza es requerida")
     private String foto;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinTable(
         name = "pizza_ingrediente",
         joinColumns = @JoinColumn(name="pizza_id"),
@@ -47,7 +47,7 @@ public class Pizza implements Serializable{
     private List<Ingrediente> ingredientes;
 
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
+    @OneToMany(orphanRemoval = true, cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     private List<Comentario> comentarios;
 
     @Min(value = 0, message = "El precio no puede ser negativo")

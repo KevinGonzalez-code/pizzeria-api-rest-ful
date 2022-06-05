@@ -2,6 +2,7 @@ package com.kevin.pizzeria.services.impls;
 
 import java.util.List;
 import com.kevin.pizzeria.dao.PizzaDao;
+import com.kevin.pizzeria.entities.Ingrediente;
 import com.kevin.pizzeria.entities.Pizza;
 import com.kevin.pizzeria.services.interfaces.IPizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,18 @@ public class PizzaServiceImpl implements IPizzaService {
     @Override
     public void deletePizzaById(Long idPizza) {
         pizzaDao.deleteById(idPizza);
+    }
+
+    @Override
+    public Double calculateProfits(List<Ingrediente> ingredients) {
+        double precio=0;
+
+        for(Ingrediente ingrediente : ingredients){
+             precio += ingrediente.getPrecio();
+        }
+
+        precio = (precio * 0.21) + precio;
+
+        return precio;
     }    
 }

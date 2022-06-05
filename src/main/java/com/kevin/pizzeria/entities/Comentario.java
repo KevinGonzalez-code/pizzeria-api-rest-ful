@@ -11,10 +11,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Range;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,16 +37,15 @@ public class Comentario implements Serializable{
     @Size(message = "El comentario debe de ser mas breve", max = 200)
     private String texto;
 
-    @Size(min = 0 , max = 10, message = "La puntuacion no debe ser superior a 10 ni inferior a 0")
-    private Long puntuacion;
+    @Range(min = 0 , max = 10, message = "La puntuacion no debe ser superior a 10 ni inferior a 0")
+    private long puntuacion;
 
     @NotNull(message = "La fecha no puede estar vacia")
     private LocalDate fecha;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Pizza pizza;
 
-    @NotNull(message = "El usuario es requerido")
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private Usuario usuario;
+  
 }
