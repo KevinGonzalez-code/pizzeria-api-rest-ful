@@ -15,9 +15,9 @@ public class PizzeriaApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		// BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		System.out.println("---------------------------------");
-		System.out.println(passwordEncoder.encode("kevin"));
+		// System.out.println(passwordEncoder.encode("kevin"));
 	}
 
 }
